@@ -1,6 +1,7 @@
 package snowflake.tumblog.user.domain;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,7 +28,9 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nickname;
-    private Integer experience = 0;
+
+    @Embedded
+    private ExperiencePoint experiencePoint;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Tumble> tumbles = new ArrayList<>();
@@ -37,6 +40,7 @@ public class User extends BaseEntity {
 
     private User(String nickname) {
         this.nickname = nickname;
+        this.experiencePoint = ExperiencePoint.initial();
     }
 
     public static User from(CreateUserRequest request) {
@@ -47,12 +51,12 @@ public class User extends BaseEntity {
         this.nickname = request.nickname();
     }
 
-    public void addExperience(int experience) {
-        this.experience += experience;
+    public void addExperiencePoint(int experience) {
+        experiencePoint = experiencePoint.add(experience);
     }
 
-    public Level getLevel() {
-        return Level.from(experience);
+    public Level calculateLevel() {
+        return Level.from(experiencePoint.get());
     }
 
     public int getSavedPrice() {

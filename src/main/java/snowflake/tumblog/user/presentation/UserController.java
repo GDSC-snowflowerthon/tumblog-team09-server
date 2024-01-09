@@ -1,5 +1,7 @@
 package snowflake.tumblog.user.presentation;
 
+import static snowflake.tumblog.common.Constant.*;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import snowflake.tumblog.common.BaseResponse;
-import snowflake.tumblog.global.constants.RequestURI;
 import snowflake.tumblog.user.dto.CreateUserRequest;
 import snowflake.tumblog.user.dto.UpdateUserRequest;
 import snowflake.tumblog.user.dto.UserMyPageResponse;
@@ -18,7 +19,7 @@ import snowflake.tumblog.user.service.UserService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(RequestURI.userURI)
+@RequestMapping(userURI)
 public class UserController {
 
     private final UserService userService;
