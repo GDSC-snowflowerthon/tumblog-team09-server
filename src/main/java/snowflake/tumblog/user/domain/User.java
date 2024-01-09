@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import snowflake.tumblog.common.BaseEntity;
 import snowflake.tumblog.user.dto.UpdateUserRequest;
 import snowflake.tumblog.user.dto.CreateUserRequest;
-import tumble.domain.Tumble;
+import snowflake.tumblog.tumble.domain.Tumble;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
