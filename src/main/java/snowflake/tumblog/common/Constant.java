@@ -1,7 +1,6 @@
 package snowflake.tumblog.common;
 
 public class Constant {
-
     public static final String ACTIVE = "active";
     public static final String INACTIVE = "inactive";
     private final static String baseURI = "/api/v1";
