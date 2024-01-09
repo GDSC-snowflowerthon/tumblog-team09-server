@@ -1,4 +1,4 @@
-package snowflake.tumblog.common;
+package snowflake.tumblog.common.enums;
 
 import lombok.Getter;
 

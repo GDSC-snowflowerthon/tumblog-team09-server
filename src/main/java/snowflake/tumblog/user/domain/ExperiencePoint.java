@@ -1,6 +1,6 @@
 package snowflake.tumblog.user.domain;
 
-import static snowflake.tumblog.common.Constant.ZERO;
+import static snowflake.tumblog.common.constants.Constant.ZERO;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;

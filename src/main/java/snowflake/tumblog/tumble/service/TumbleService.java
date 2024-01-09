@@ -3,14 +3,14 @@ package snowflake.tumblog.tumble.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import snowflake.tumblog.common.BaseException;
-import snowflake.tumblog.common.BaseResponseStatus;
+import snowflake.tumblog.common.constants.Constant;
+import snowflake.tumblog.common.enums.BaseResponseStatus;
 import snowflake.tumblog.tumble.domain.Tumble;
 import snowflake.tumblog.tumble.dto.PostTumbleReq;
 import snowflake.tumblog.tumble.repository.TumbleRepository;
 import snowflake.tumblog.user.domain.User;
 import snowflake.tumblog.user.domain.repository.UserRepository;
 
-import static snowflake.tumblog.common.Constant.ACTIVE;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +24,7 @@ public class TumbleService {
      */
     public void addTumble(PostTumbleReq postTumbleReq, Long userId) throws BaseException {
         try {
-            User user = userRepository.findByIdAndStatusEquals(userId, ACTIVE)
+            User user = userRepository.findByIdAndStatusEquals(userId, Constant.ACTIVE)
                     .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER_ID));
 
             Tumble tumble = Tumble.builder()

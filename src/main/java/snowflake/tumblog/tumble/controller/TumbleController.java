@@ -1,19 +1,22 @@
 package snowflake.tumblog.tumble.controller;
 
+import static snowflake.tumblog.common.constants.RequestURI.*;
+import static snowflake.tumblog.common.enums.BaseResponseStatus.*;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import snowflake.tumblog.common.BaseException;
 import snowflake.tumblog.common.BaseResponse;
+import snowflake.tumblog.common.constants.RequestURI;
+import snowflake.tumblog.common.enums.BaseResponseStatus;
 import snowflake.tumblog.tumble.dto.PostTumbleReq;
 import snowflake.tumblog.tumble.service.TumbleService;
 
-import static snowflake.tumblog.common.BaseResponseStatus.SUCCESS;
-import static snowflake.tumblog.common.Constant.tumbleURI;
-
 @RestController
-@RequestMapping(tumbleURI)
+@RequestMapping(tumble)
 @RequiredArgsConstructor
 public class TumbleController {
+
     private final TumbleService tumbleService;
 
     /**
