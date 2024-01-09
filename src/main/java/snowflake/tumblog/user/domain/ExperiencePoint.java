@@ -5,7 +5,6 @@ import static snowflake.tumblog.common.Constant.ZERO;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import snowflake.tumblog.common.Constant;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

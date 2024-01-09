@@ -3,7 +3,6 @@ package snowflake.tumblog.user.presentation;
 import static snowflake.tumblog.common.Constant.*;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
