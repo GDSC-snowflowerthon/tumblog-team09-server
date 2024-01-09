@@ -7,9 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import snowflake.tumblog.common.BaseException;
 import snowflake.tumblog.common.BaseResponse;
-import snowflake.tumblog.common.constants.RequestURI;
-import snowflake.tumblog.common.enums.BaseResponseStatus;
-import snowflake.tumblog.tumble.dto.PostTumbleReq;
+import snowflake.tumblog.tumble.dto.GetTumbleResponse;
+import snowflake.tumblog.tumble.dto.PostTumbleRequest;
 import snowflake.tumblog.tumble.service.TumbleService;
 
 @RestController
@@ -24,10 +23,23 @@ public class TumbleController {
      */
     @ResponseBody
     @PostMapping("/{userId}")
-    public BaseResponse<String> addTumble(@RequestBody PostTumbleReq postTumbleReq, Long userId) {
+    public BaseResponse<String> addTumble(@RequestBody PostTumbleRequest postTumbleRequest, Long userId) {
         try {
-            tumbleService.addTumble(postTumbleReq, userId);
+            tumbleService.addTumble(postTumbleRequest, userId);
             return new BaseResponse<>(SUCCESS);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * [GET] 텀블 상세 조회
+     */
+    @ResponseBody
+    @GetMapping("/{tumbleId}")
+    public BaseResponse<GetTumbleResponse> getDessert(@PathVariable("tumbleId") Long tumbleId) {
+        try {
+            return new BaseResponse<>(tumbleService.getTumble(tumbleId));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
