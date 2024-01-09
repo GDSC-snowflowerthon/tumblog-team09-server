@@ -40,15 +40,20 @@ class UserServiceTest {
     void 비밀번호_변경() {
         // given
         회원가입_요청();
+        String newNickname = 비밀번호_변경_요청();
+
+        // then
+        assertThat(userRepository.findById(1L).get().getNickname())
+            .isEqualTo(newNickname);
+    }
+
+    private String 비밀번호_변경_요청() {
         long userId = 1L;
         String newNickname = "newNickname";
         UpdateUserRequest request = new UpdateUserRequest(userId, newNickname);
 
         // when
         userService.changeNickname(request);
-
-        // then
-        assertThat(userRepository.findById(1L).get().getNickname())
-            .isEqualTo(newNickname);
+        return newNickname;
     }
 }
