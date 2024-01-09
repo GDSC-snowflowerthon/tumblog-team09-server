@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import snowflake.tumblog.user.dto.UpdateUserRequest;
 import snowflake.tumblog.user.dto.CreateUserRequest;
 
 @Getter
@@ -29,5 +30,9 @@ public class User {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public void changeNickname(UpdateUserRequest request) {
+        this.nickname = request.nickname();
     }
 }
