@@ -1,21 +1,9 @@
 package snowflake.tumblog.user.domain.repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import snowflake.tumblog.user.domain.User;
 
-public class UserRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    private Map<Long, User> persistance = new HashMap<>();
-    private Long sequence = 0L;
-
-    public void save(User user) {
-        user.assignId(sequence++);
-        persistance.put(user.getId(), user);
-    }
-
-    public List<User> findAll() {
-        return List.copyOf(persistance.values());
-    }
 }
