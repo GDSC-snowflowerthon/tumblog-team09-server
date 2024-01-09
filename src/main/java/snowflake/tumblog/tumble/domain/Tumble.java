@@ -1,13 +1,8 @@
-package tumble.domain;
+package snowflake.tumblog.tumble.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import snowflake.tumblog.user.domain.User;
@@ -25,7 +20,11 @@ public class Tumble {
     @JoinColumn(name = "tumble_id")
     private User user;
 
+    @Column
+    private String menu;
+    @Column
     private Integer discountPrice;
+    @Column
     private Size size;
 
     public int getDiscountPrice() {
@@ -34,5 +33,13 @@ public class Tumble {
 
     public double getCarbon() {
         return size.getCarbon();
+    }
+
+    @Builder
+    public Tumble(User user, String menu, Integer discountPrice, Size size) {
+        this.user = user;
+        this.menu = menu;
+        this.discountPrice = discountPrice;
+        this.size = size;
     }
 }

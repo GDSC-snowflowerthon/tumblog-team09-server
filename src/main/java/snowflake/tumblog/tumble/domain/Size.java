@@ -1,4 +1,4 @@
-package tumble.domain;
+package snowflake.tumblog.tumble.domain;
 
 public enum Size {
     SMALL(39.0),
