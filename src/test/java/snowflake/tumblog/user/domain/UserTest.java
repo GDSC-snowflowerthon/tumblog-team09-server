@@ -23,10 +23,9 @@ class UserTest {
         // given
         String nickname = "nickname";
         CreateUserRequest request = new CreateUserRequest(nickname);
-        User user = User.from(request);
 
         // when
-        userService.signup(user);
+        userService.signup(request);
 
         // then
         Assertions.assertThat(userRepository.findAll()).hasSize(1);
