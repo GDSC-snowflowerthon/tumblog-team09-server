@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import snowflake.tumblog.chat.dto.ChatGptResponse;
+import snowflake.tumblog.chat.service.ChatService;
 import snowflake.tumblog.ocr.domain.OcrProperties;
 import snowflake.tumblog.ocr.dto.CheckImageRequest;
 import snowflake.tumblog.ocr.dto.OcrRequest;
@@ -18,8 +20,9 @@ import snowflake.tumblog.ocr.dto.OcrResponse;
 public class OcrService {
 
     private final OcrProperties ocrProperties;
+    private final ChatService chatService;
 
-    public void checkImage(CheckImageRequest request) {
+    public ChatGptResponse checkImage(CheckImageRequest request) {
 
         WebClient webClient = WebClient.builder()
             .baseUrl(ocrProperties.getInvokeUrl())
@@ -34,13 +37,16 @@ public class OcrService {
 	.bodyToMono(OcrResponse.class)
 	.block();
 
-            normalizeText(response.getOnlyText());
+            return normalizeText(response.getOnlyText());
         } catch (WebClientResponseException e) {
             log.error("오류 응답 본문: {}", e.getResponseBodyAsString());
         }
+        return null;
     }
 
-    private void normalizeText(String text) {
-        System.out.print(text);
+    private ChatGptResponse normalizeText(String text) {
+        ChatGptResponse response = chatService.completion(text);
+        System.out.print(response.messages().get(0).message());
+        return response;
     }
 }
