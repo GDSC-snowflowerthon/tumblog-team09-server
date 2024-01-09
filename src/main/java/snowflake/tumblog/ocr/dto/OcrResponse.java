@@ -37,4 +37,10 @@ public class OcrResponse {
             }
         }
     }
+
+    public String getOnlyText() {
+        return this.getImages().get(0).getFields().stream()
+            .map(OcrResponse.Image.Field::getInferText)
+            .reduce("", (a, b) -> a + " " + b);
+    }
 }
