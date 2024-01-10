@@ -14,7 +14,7 @@ public class OcrServiceTest {
     @Test
     void 영수증을_확인한다() {
         // given
-        String imageUrl = "https://t1.daumcdn.net/cfile/tistory/99D6B64B5B6AA7AB03";
+        String imageUrl = "https://mblogthumb-phinf.pstatic.net/MjAyMTAyMDNfMzUg/MDAxNjEyMzMyMTA4NDMx.WR8JyzSs5DLFIWu6kBjTGwjXexu1SvDTQ6EnFmOpVaUg.V1EmxzJXsaI6rAXEZTfHvY_tJ6s4us1-CiVD6bqP0zYg.JPEG.peter5659/1612331747638.jpg?type=w800";
         CheckImageRequest request = new CheckImageRequest(imageUrl);
 
         // when & then
