@@ -12,8 +12,9 @@ public class UserTest {
         int experience = 100;
         User user = User.from(CreateUserRequest.of("test"));
         user.addExperiencePoint(experience);
+        user.calculateLevel();
 
         // when & then
-        Assertions.assertThat(user.calculateLevel()).isEqualTo(Level.LV_2);
+        Assertions.assertThat(user.getLevel().name()).isEqualTo("LV_2");
     }
 }

@@ -56,8 +56,8 @@ public class User extends BaseEntity {
         return tumbles.getConsecutiveTumble();
     }
 
-    public Level calculateLevel() {
-        return Level.from(experiencePoint.get());
+    public void calculateLevel() {
+        this.level = Level.from(experiencePoint.get());
     }
 
     public void addTumble(Tumble tumble) {

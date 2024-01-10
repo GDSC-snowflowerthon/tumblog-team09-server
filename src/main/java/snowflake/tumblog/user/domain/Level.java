@@ -17,7 +17,6 @@ public enum Level {
         this.exclusiveRange = exclusiveRange;
     }
 
-
     public static Level from(Integer experience) {
         return Arrays.stream(Level.values())
             .filter(
