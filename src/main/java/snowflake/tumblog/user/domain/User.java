@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import snowflake.tumblog.common.BaseEntity;
+import snowflake.tumblog.tumble.domain.Tumbles;
 import snowflake.tumblog.user.dto.UpdateUserRequest;
 import snowflake.tumblog.user.dto.CreateUserRequest;
 import snowflake.tumblog.tumble.domain.Tumble;
@@ -32,8 +33,8 @@ public class User extends BaseEntity {
     @Embedded
     private ExperiencePoint experiencePoint;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Tumble> tumbles = new ArrayList<>();
+    @Embedded
+    private Tumbles tumbles = new Tumbles();
 
     @Enumerated(EnumType.STRING)
     private Level level;
@@ -57,21 +58,5 @@ public class User extends BaseEntity {
 
     public Level calculateLevel() {
         return Level.from(experiencePoint.get());
-    }
-
-    public int getSavedPrice() {
-        return tumbles.stream()
-            .mapToInt(tumble -> tumble.getDiscountPrice())
-            .sum();
-    }
-
-    public double getSavedCarbon() {
-        return tumbles.stream()
-            .mapToDouble(tumble -> tumble.getCarbon())
-            .sum();
-    }
-
-    public Integer getTumblesSize() {
-        return tumbles.size();
     }
 }
