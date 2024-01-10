@@ -1,6 +1,5 @@
 package snowflake.tumblog.user.domain;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,17 +7,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import snowflake.tumblog.common.BaseEntity;
+import snowflake.tumblog.tumble.domain.Tumble;
 import snowflake.tumblog.tumble.domain.Tumbles;
 import snowflake.tumblog.user.dto.UpdateUserRequest;
 import snowflake.tumblog.user.dto.CreateUserRequest;
-import snowflake.tumblog.tumble.domain.Tumble;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,7 +30,7 @@ public class User extends BaseEntity {
     private ExperiencePoint experiencePoint;
 
     @Embedded
-    private Tumbles tumbles = new Tumbles();
+    private Tumbles tumbles = Tumbles.initial();
 
     @Enumerated(EnumType.STRING)
     private Level level;
@@ -56,7 +52,17 @@ public class User extends BaseEntity {
         experiencePoint = experiencePoint.add(experience);
     }
 
+    public int consecutiveTumble() {
+        return tumbles.getConsecutiveTumble();
+    }
+
     public Level calculateLevel() {
         return Level.from(experiencePoint.get());
+    }
+
+    public void addTumble(Tumble tumble) {
+        this.tumbles.add(tumble);
+        int experiencePoint = calculateExperiencePoint(consecutiveTumble());
+        addExperiencePoint(experiencePoint);
     }
 }

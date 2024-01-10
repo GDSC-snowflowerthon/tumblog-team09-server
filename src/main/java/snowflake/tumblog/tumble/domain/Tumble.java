@@ -18,14 +18,13 @@ public class Tumble extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tumble_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column
     private String menu;
-    @Column
     private Integer discountPrice;
-    @Column
+
+    @Enumerated(EnumType.STRING)
     private Size size;
 
     public int getDiscountPrice() {
