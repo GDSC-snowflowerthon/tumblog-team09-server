@@ -48,8 +48,17 @@ public class User extends BaseEntity {
         this.nickname = request.nickname();
     }
 
-    public void addExperiencePoint(int experience) {
-        experiencePoint = experiencePoint.add(experience);
+    public void addExperiencePoint() {
+        if (experiencePoint == null) {
+            experiencePoint = ExperiencePoint.initial();
+        }
+        int consecutiveDays = tumbles.getConsecutiveFromToday();
+        if (consecutiveDays > 0) {
+            experiencePoint = experiencePoint.addBonus(consecutiveDays);
+            return;
+        }
+        this.experiencePoint = experiencePoint.add();
+        calculateLevel();
     }
 
     public int consecutiveTumble() {
