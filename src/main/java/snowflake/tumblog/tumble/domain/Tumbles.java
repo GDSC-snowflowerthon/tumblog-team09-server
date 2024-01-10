@@ -37,4 +37,8 @@ public class Tumbles {
     public Integer size() {
         return tumbles.size();
     }
+
+    public void add(Tumble tumble) {
+        tumbles.add(tumble);
+    }
 }

@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import snowflake.tumblog.common.BaseException;
 import snowflake.tumblog.common.BaseResponse;
-import snowflake.tumblog.tumble.dto.GetTumbleResponse;
-import snowflake.tumblog.tumble.dto.PostTumbleRequest;
+import snowflake.tumblog.tumble.dto.TumbleDetailResponse;
+import snowflake.tumblog.tumble.dto.CreateTumbleRequest;
 import snowflake.tumblog.tumble.service.TumbleService;
 
 @RestController
@@ -18,14 +18,12 @@ public class TumbleController {
 
     private final TumbleService tumbleService;
 
-    /**
-     * [POST] 텀블 등록
-     */
     @ResponseBody
     @PostMapping("/{userId}")
-    public BaseResponse<String> addTumble(@RequestBody PostTumbleRequest postTumbleRequest, Long userId) {
+    public BaseResponse<String> createTumble(@RequestBody CreateTumbleRequest request,
+        @PathVariable Long userId) {
         try {
-            tumbleService.addTumble(postTumbleRequest, userId);
+            tumbleService.create(request, userId);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
