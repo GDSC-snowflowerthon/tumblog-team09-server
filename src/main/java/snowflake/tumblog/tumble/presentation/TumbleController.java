@@ -1,4 +1,4 @@
-package snowflake.tumblog.tumble.controller;
+package snowflake.tumblog.tumble.presentation;
 
 import static snowflake.tumblog.common.constants.RequestURI.*;
 import static snowflake.tumblog.common.enums.BaseResponseStatus.*;
@@ -30,14 +30,12 @@ public class TumbleController {
         }
     }
 
-    /**
-     * [GET] 텀블 상세 조회
-     */
     @ResponseBody
     @GetMapping("/{tumbleId}")
-    public BaseResponse<GetTumbleResponse> getDessert(@PathVariable("tumbleId") Long tumbleId) {
+    public BaseResponse<TumbleDetailResponse> getTumbleDetails(
+        @PathVariable("tumbleId") Long tumbleId) {
         try {
-            return new BaseResponse<>(tumbleService.getTumble(tumbleId));
+            return new BaseResponse<>(tumbleService.detail(tumbleId));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

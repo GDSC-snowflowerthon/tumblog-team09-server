@@ -1,13 +1,15 @@
 package snowflake.tumblog.tumble.service;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import snowflake.tumblog.common.BaseException;
-import snowflake.tumblog.common.constants.Constant;
 import snowflake.tumblog.common.enums.BaseResponseStatus;
+import snowflake.tumblog.tumble.domain.Size;
 import snowflake.tumblog.tumble.domain.Tumble;
-import snowflake.tumblog.tumble.dto.GetTumbleResponse;
-import snowflake.tumblog.tumble.dto.PostTumbleRequest;
+import snowflake.tumblog.tumble.dto.TumbleDetailResponse;
+import snowflake.tumblog.tumble.dto.CreateTumbleRequest;
 import snowflake.tumblog.tumble.repository.TumbleRepository;
 import snowflake.tumblog.user.domain.User;
 import snowflake.tumblog.user.domain.repository.UserRepository;
@@ -17,49 +19,43 @@ import static snowflake.tumblog.common.enums.BaseResponseStatus.DATABASE_ERROR;
 import static snowflake.tumblog.common.enums.BaseResponseStatus.INVALID_TUMBLE_ID;
 
 
+@Transactional
+@RequiredArgsConstructor
 @Service
-@AllArgsConstructor
 public class TumbleService {
+
     private final TumbleRepository tumbleRepository;
     private final UserRepository userRepository;
 
-    /**
-     * 텀블 등록
-     * menu, discountPrice, size
-     */
-    public void addTumble(PostTumbleRequest postTumbleRequest, Long userId) throws BaseException {
+    public void create(CreateTumbleRequest request, Long userId) throws BaseException {
         try {
-            User user = userRepository.findByIdAndStatusEquals(userId, ACTIVE)
-                    .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER_ID));
+            User user = userRepository.findById(userId)
+	.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 
             Tumble tumble = Tumble.builder()
-                    .user(user)
-                    .menu(postTumbleRequest.getMenu())
-                    .discountPrice(postTumbleRequest.getDiscountPrice())
-                    .size(postTumbleRequest.getSize())
-                    .build();
-            tumbleRepository.save(tumble);
-        } catch(BaseException e) {
-            throw e;
-        } catch(Exception e) {
+	.user(user)
+	.menu(request.menu())
+	.discountPrice(request.discountPrice())
+	.size(Size.from(request.size()))
+	.build();
+
+            user.addTumble(tumble);
+        } catch (IllegalArgumentException error) {
+            throw error;
+        } catch (Exception error) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
-    /**
-     * 텀블 상세 조회
-     */
-    public GetTumbleResponse getTumble(Long tumbleId) throws BaseException {
+    public TumbleDetailResponse detail(Long tumbleId) throws BaseException {
         try {
-            Tumble tumble = tumbleRepository.findByIdAndStatusEquals(tumbleId, ACTIVE).orElseThrow(() -> new BaseException(INVALID_TUMBLE_ID));
+            Tumble tumble = tumbleRepository.findById(tumbleId)
+	.orElseThrow(() -> new BaseException(INVALID_TUMBLE_ID));
 
-            // menu, discountPrice, size
-            return new GetTumbleResponse(tumble.getMenu(), tumble.getDiscountPrice(),tumble.getSize());
-        } catch (BaseException e) {
-            throw e;
-        } catch (Exception e) {
+            return new TumbleDetailResponse(tumble.getMenu(), tumble.getDiscountPrice(),
+	tumble.getSize());
+        } catch (Exception error) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
 }
