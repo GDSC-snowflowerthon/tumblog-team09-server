@@ -3,8 +3,6 @@ package snowflake.tumblog.user.presentation;
 import static snowflake.tumblog.common.constants.RequestURI.*;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import snowflake.tumblog.common.BaseResponse;
 import snowflake.tumblog.user.dto.CreateUserRequest;
 import snowflake.tumblog.user.dto.UpdateUserRequest;
-import snowflake.tumblog.user.dto.UserMyPageResponse;
+import snowflake.tumblog.user.dto.MyPageResponse;
 import snowflake.tumblog.user.service.UserService;
 
 @RequiredArgsConstructor
@@ -46,8 +44,13 @@ public class UserController {
     }
 
     @GetMapping("/mypage/{userId}")
-    public BaseResponse<UserMyPageResponse> myPage(@PathVariable Long userId) {
+    public BaseResponse<MyPageResponse> myPage(@PathVariable Long userId) {
         return new BaseResponse(userService.myPage(userId));
+    }
+
+    @GetMapping("/home/{userId}")
+    public void getHome(@PathVariable Long userId) {
+        userService.home(userId);
     }
 }
 

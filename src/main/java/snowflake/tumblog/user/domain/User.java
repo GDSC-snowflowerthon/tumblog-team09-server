@@ -37,7 +37,6 @@ public class User extends BaseEntity {
 
     private User(String nickname) {
         this.nickname = nickname;
-        this.experiencePoint = ExperiencePoint.initial();
     }
 
     public static User from(CreateUserRequest request) {
@@ -61,17 +60,12 @@ public class User extends BaseEntity {
         calculateLevel();
     }
 
-    public int consecutiveTumble() {
-        return tumbles.getConsecutiveTumble();
-    }
-
-    public void calculateLevel() {
+    private void calculateLevel() {
         this.level = Level.from(experiencePoint.get());
     }
 
     public void addTumble(Tumble tumble) {
         this.tumbles.add(tumble);
-        int experiencePoint = calculateExperiencePoint(consecutiveTumble());
-        addExperiencePoint(experiencePoint);
+        addExperiencePoint();
     }
 }
