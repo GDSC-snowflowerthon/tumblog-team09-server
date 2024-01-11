@@ -10,7 +10,6 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import snowflake.tumblog.chat.dto.ChatGptResponse;
 import snowflake.tumblog.chat.service.ChatService;
 import snowflake.tumblog.ocr.domain.OcrProperties;
-import snowflake.tumblog.ocr.dto.CheckImageRequest;
 import snowflake.tumblog.ocr.dto.OcrRequest;
 import snowflake.tumblog.ocr.dto.OcrResponse;
 
@@ -22,7 +21,7 @@ public class OcrService {
     private final OcrProperties ocrProperties;
     private final ChatService chatService;
 
-    public ChatGptResponse checkImage(CheckImageRequest request) {
+    public ChatGptResponse checkImage(String imageUrl) {
 
         WebClient webClient = WebClient.builder()
             .baseUrl(ocrProperties.getInvokeUrl())
@@ -32,11 +31,10 @@ public class OcrService {
 
         try {
             OcrResponse response = webClient.post()
-	.bodyValue(OcrRequest.from(request.imageUrl()))
-	.retrieve()
-	.bodyToMono(OcrResponse.class)
-	.block();
-
+                .bodyValue(OcrRequest.from(imageUrl))
+                .retrieve()
+                .bodyToMono(OcrResponse.class)
+                .block();
             return normalizeText(response.getOnlyText());
         } catch (WebClientResponseException e) {
             log.error("오류 응답 본문: {}", e.getResponseBodyAsString());

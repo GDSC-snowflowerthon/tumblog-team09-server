@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import snowflake.tumblog.chat.dto.ChatGptResponse;
+import snowflake.tumblog.ocr.service.OcrService;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -16,13 +18,14 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
+    private final OcrService ocrService;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
     private final AmazonS3Client amazonS3Client;
 
-    public String uploadImage(MultipartFile multipartFile) throws IOException {
+    public ChatGptResponse uploadImage(MultipartFile multipartFile) throws IOException {
         String fileName = UUID.randomUUID() + multipartFile.getOriginalFilename();
         long size = multipartFile.getSize();
 
@@ -33,7 +36,6 @@ public class ImageService {
         amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, multipartFile.getInputStream(), objectMetaData)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
         String imagePath = amazonS3Client.getUrl(bucketName, fileName).toString();
-        System.out.println("imagePath = " + imagePath);
-        return imagePath;
+        return ocrService.checkImage(imagePath);
     }
 }
