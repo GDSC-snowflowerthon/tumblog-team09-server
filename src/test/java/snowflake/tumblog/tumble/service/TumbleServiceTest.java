@@ -1,22 +1,16 @@
 package snowflake.tumblog.tumble.service;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import snowflake.tumblog.common.BaseException;
 import snowflake.tumblog.tumble.domain.Size;
 import snowflake.tumblog.tumble.dto.CreateTumbleRequest;
 import snowflake.tumblog.tumble.dto.TumbleDetailResponse;
 import snowflake.tumblog.tumble.repository.TumbleRepository;
-import snowflake.tumblog.user.domain.User;
-import snowflake.tumblog.user.domain.repository.UserRepository;
 import snowflake.tumblog.user.dto.CreateUserRequest;
 import snowflake.tumblog.user.service.UserService;
 
@@ -35,18 +29,18 @@ class TumbleServiceTest {
     @BeforeEach
     void setUp() {
         userService.signup(CreateUserRequest.of("nickname"));
-        tumbleRepository.deleteAll();
+        tumbleRepository.flush();
     }
 
     @Test
-    void Tumble_생성() throws BaseException {
+    void Tumble_생성() {
         Tumble_생성_요청();
 
         // then
         assertThat(tumbleRepository.findAll()).hasSize(1);
     }
 
-    private void Tumble_생성_요청() throws BaseException {
+    private void Tumble_생성_요청() {
         // given
         CreateTumbleRequest request = new CreateTumbleRequest(LocalDate.of(2024, 01, 10), "아메리카노",
             3000, "M");
@@ -57,7 +51,7 @@ class TumbleServiceTest {
     }
 
     @Test
-    void Tumble_조회() throws BaseException {
+    void Tumble_조회() {
         // given
         Tumble_생성_요청();
         Long tumbleId = 1L;

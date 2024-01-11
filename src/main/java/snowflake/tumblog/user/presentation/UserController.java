@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/home/{userId}")
-    public void getHome(@PathVariable Long userId) {
+    public void home(@PathVariable Long userId) {
         userService.home(userId);
     }
 }
