@@ -18,7 +18,7 @@ public class OcrServiceTest {
         CheckImageRequest request = new CheckImageRequest(imageUrl);
 
         // when & then
-        ocrService.checkImage(request);
+        ocrService.checkImage(imageUrl);
     }
 
 }
