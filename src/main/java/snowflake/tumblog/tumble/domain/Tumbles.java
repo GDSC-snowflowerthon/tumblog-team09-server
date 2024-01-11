@@ -50,7 +50,7 @@ public class Tumbles {
         }
 
         List<LocalDate> sortedDates = tumbles.stream()
-            .map(Tumble::getCreatedDate) // Tumble에서 날짜 추출
+            .map(Tumble::getCreatedAt) // Tumble에서 날짜 추출
             .sorted(Comparator.reverseOrder()) // 최신 날짜부터 정렬
             .collect(Collectors.toList());
 
@@ -84,14 +84,15 @@ public class Tumbles {
 
     private LocalDate getFirstTumbleDate() {
         return tumbles.stream()
-            .map(Tumble::getCreatedDate)
+            .map(Tumble::getCreatedAt)
             .min(LocalDate::compareTo)
             .orElse(LocalDate.now());
     }
 
     public List<TumbleResponse> toResponse() {
         return tumbles.stream()
-            .map(tumble -> new TumbleResponse(tumble.getId(), tumble.getCreatedDate()))
+            .filter(tumble -> tumble.getCreatedAt().getMonth().equals(LocalDate.now().getMonth()))
+            .map(tumble -> new TumbleResponse(tumble.getId(), tumble.getCreatedAt()))
             .collect(Collectors.toList());
     }
 }

@@ -22,22 +22,14 @@ public class TumbleController {
     @PostMapping("/{userId}")
     public BaseResponse<String> createTumble(@RequestBody CreateTumbleRequest request,
         @PathVariable Long userId) {
-        try {
-            tumbleService.create(request, userId);
-            return new BaseResponse<>(SUCCESS);
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
-        }
+        tumbleService.create(request, userId);
+        return new BaseResponse<>(SUCCESS);
     }
 
     @ResponseBody
     @GetMapping("/{tumbleId}")
     public BaseResponse<TumbleDetailResponse> getTumbleDetails(
         @PathVariable("tumbleId") Long tumbleId) {
-        try {
-            return new BaseResponse<>(tumbleService.detail(tumbleId));
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
-        }
+        return new BaseResponse<>(tumbleService.detail(tumbleId));
     }
 }
