@@ -1,4 +1,4 @@
-package snowflake.tumblog.common;
+package snowflake.tumblog.common.enums;
 
 import lombok.Getter;
 
@@ -13,9 +13,10 @@ public enum BaseResponseStatus {
      * 2000: Request 오류
      */
     // user(2000~2099)
-    INVALID_USER_IDX(false, 2000, "잘못된 user Idx 입니다."),
+    INVALID_USER_ID(false, 2000, "잘못된 user Id입니다."),
 
     // tumble(2100~2199)
+    INVALID_TUMBLE_ID(false, 2001, "잘못된 tumble Id 입니다."),
 
     /**
      * 3000: Response 오류

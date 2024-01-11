@@ -5,8 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import snowflake.tumblog.common.enums.BaseResponseStatus;
 
-import static snowflake.tumblog.common.BaseResponseStatus.SUCCESS;
+import static snowflake.tumblog.common.enums.BaseResponseStatus.SUCCESS;
 
 @Getter
 @AllArgsConstructor
