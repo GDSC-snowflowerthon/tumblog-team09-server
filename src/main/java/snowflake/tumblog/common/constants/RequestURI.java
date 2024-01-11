@@ -6,5 +6,5 @@ public class RequestURI {
     public final static String user = baseURI + "/users";
     public final static String tumble = baseURI + "/tumbles";
     public final static String ocr = baseURI + "/ocr";
-
+    public final static String image = baseURI + "/image";
 }
