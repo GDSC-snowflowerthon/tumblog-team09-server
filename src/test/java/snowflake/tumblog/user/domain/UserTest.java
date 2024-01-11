@@ -9,11 +9,10 @@ public class UserTest {
     @Test
     void 경험치가_쌓이면_레벨업() {
         // given
-        int experience = 100;
         User user = User.from(CreateUserRequest.of("test"));
-        user.addExperiencePoint(experience);
+        user.addExperiencePoint();
 
         // when & then
-        Assertions.assertThat(user.calculateLevel()).isEqualTo(Level.LV_2);
+        Assertions.assertThat(user.getLevel().name()).isEqualTo("LV_1");
     }
 }

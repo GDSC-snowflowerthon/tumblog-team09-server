@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class ExperiencePoint {
 
     private Integer experience;
-
+    private final int baseExperience = 10;
 
     private ExperiencePoint(Integer experience) {
         this.experience = experience;
@@ -25,9 +25,29 @@ public class ExperiencePoint {
         return new ExperiencePoint(experience);
     }
 
-    public ExperiencePoint add(int experience) {
-        return ExperiencePoint.from(this.experience + experience);
+    public ExperiencePoint add() {
+        return ExperiencePoint.from(this.experience + baseExperience);
     }
+
+    public ExperiencePoint addBonus(int consecutiveDays) {
+        return ExperiencePoint.from(
+            this.experience + baseExperience + getBonusPoint(consecutiveDays));
+    }
+
+    public int getBonusPoint(int consecutiveDays) {
+        int baseExperience = 10; // 기본 경험치
+        int additionalExperience = 0; // 추가 경험치
+
+        if (consecutiveDays > 0) {
+            additionalExperience = Math.min(consecutiveDays, 5) * 2; // 연속 일수가 5일까지는 일수당 2점씩 추가
+            if (consecutiveDays >= 7) {
+	additionalExperience += 10; // 7일 연속 기록 시 추가 보너스
+            }
+        }
+
+        return baseExperience + additionalExperience;
+    }
+
 
     public Integer get() {
         return experience;

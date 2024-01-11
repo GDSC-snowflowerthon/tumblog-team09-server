@@ -7,9 +7,11 @@ import snowflake.tumblog.user.domain.User;
 import snowflake.tumblog.user.domain.repository.UserPort;
 import snowflake.tumblog.user.dto.UpdateUserRequest;
 import snowflake.tumblog.user.dto.CreateUserRequest;
-import snowflake.tumblog.user.dto.UserMyPageResponse;
+import snowflake.tumblog.user.dto.HomeResponse;
+import snowflake.tumblog.user.dto.MyPageResponse;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class UserService {
 
@@ -19,7 +21,6 @@ public class UserService {
         userPort.save(User.from(request));
     }
 
-    @Transactional
     public void changeNickname(UpdateUserRequest request) {
         User user = userPort.findById(request.userId())
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
@@ -27,10 +28,19 @@ public class UserService {
         user.changeNickname(request);
     }
 
-    public UserMyPageResponse myPage(Long userId) {
+    @Transactional(readOnly = true)
+    public MyPageResponse myPage(Long userId) {
         User user = userPort.findById(userId)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 
-        return UserMyPageResponse.from(user);
+        return MyPageResponse.from(user);
+    }
+
+    @Transactional(readOnly = true)
+    public HomeResponse home(Long userId) {
+        User user = userPort.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+        return HomeResponse.from(user);
     }
 }
