@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import snowflake.tumblog.chat.dto.ChatGptResponse;
 import snowflake.tumblog.common.BaseResponse;
 import snowflake.tumblog.common.s3.service.ImageService;
 
@@ -19,7 +20,8 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/upload")
-    public BaseResponse<Object> uploadImage(MultipartFile multipartFile) throws IOException {
-        return new BaseResponse<>(imageService.uploadImage(multipartFile));
+    public ChatGptResponse uploadImage(MultipartFile multipartFile) throws IOException {
+        ChatGptResponse response = imageService.uploadImage(multipartFile);
+        return response;
     }
 }
