@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,8 +40,21 @@ public class User extends BaseEntity {
         this.nickname = nickname;
     }
 
+    private User(String nickname, ExperiencePoint experiencePoint, Tumbles tumbles, Level level) {
+        this.nickname = nickname;
+        this.experiencePoint = experiencePoint;
+        this.tumbles = tumbles;
+        this.level = level;
+    }
+
     public static User from(CreateUserRequest request) {
         return new User(request.nickname());
+    }
+
+    public static User initialize(String nickname, ExperiencePoint experiencePoint,
+        Tumbles tumbles) {
+        return new User(nickname, experiencePoint, tumbles,
+            Level.from(experiencePoint.get()));
     }
 
     public void changeNickname(UpdateUserRequest request) {

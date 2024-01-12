@@ -1,5 +1,6 @@
 package snowflake.tumblog.user.domain.repository;
 
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,5 +20,10 @@ public class UserAdapter implements UserPort {
     @Override
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

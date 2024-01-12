@@ -19,6 +19,7 @@ import snowflake.tumblog.user.dto.CreateUserRequest;
 import snowflake.tumblog.user.dto.HomeResponse;
 import snowflake.tumblog.user.dto.UpdateUserRequest;
 import snowflake.tumblog.user.dto.MyPageResponse;
+import snowflake.tumblog.user.dto.UserRankResponse;
 import snowflake.tumblog.user.service.UserService;
 
 @RequiredArgsConstructor
@@ -53,6 +54,11 @@ public class UserController {
     public BaseResponse<HomeResponse> home(@PathVariable("userId") Long userId,
         @PathVariable("year") int year, @PathVariable("month") int month) {
         return new BaseResponse<>(userService.home(userId, year, month));
+    }
+
+    @GetMapping("/rank/{userId}")
+    public UserRankResponse rank(@PathVariable("userId") Long userId) {
+        return userService.rank(userId);
     }
 }
 

@@ -7,7 +7,7 @@ public enum Level {
     LV_2(2, 100, 400),
     LV_3(3, 400, 900),
     LV_4(4, 900, 1600),
-    LV_5(5, 1600, 3000);
+    LV_5(5, 1600, 5000);
 
     private final int description;
     private final int inclusiveRange;
