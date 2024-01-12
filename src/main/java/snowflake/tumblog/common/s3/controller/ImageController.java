@@ -10,6 +10,7 @@ import snowflake.tumblog.chat.dto.ChatGptResponse;
 import snowflake.tumblog.common.s3.service.ImageService;
 
 import java.io.IOException;
+import snowflake.tumblog.tumble.dto.CoffeeOrderResponse;
 
 import static snowflake.tumblog.common.constants.RequestURI.image;
 
@@ -23,8 +24,8 @@ public class ImageController {
 
     @PostMapping("/upload")
     @Operation(summary = "이미지 업로드", description = "MultipartFile을 S3에 업로드하고 OCR API와 chatGPT API를 통해 정제된 데이터를 반환한다.")
-    public ChatGptResponse uploadImage(MultipartFile multipartFile) throws IOException {
-        ChatGptResponse response = imageService.uploadImage(multipartFile);
-        return response;
+    public CoffeeOrderResponse uploadImage(@RequestBody MultipartFile multipartFile)
+        throws IOException {
+        return imageService.uploadImage(multipartFile);
     }
 }

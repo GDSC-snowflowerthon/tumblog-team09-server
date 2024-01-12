@@ -1,5 +1,7 @@
 package snowflake.tumblog.ocr.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +14,7 @@ import snowflake.tumblog.chat.service.ChatService;
 import snowflake.tumblog.ocr.domain.OcrProperties;
 import snowflake.tumblog.ocr.dto.OcrRequest;
 import snowflake.tumblog.ocr.dto.OcrResponse;
+import snowflake.tumblog.tumble.dto.CoffeeOrderResponse;
 
 @Service
 @Slf4j
@@ -21,7 +24,7 @@ public class OcrService {
     private final OcrProperties ocrProperties;
     private final ChatService chatService;
 
-    public ChatGptResponse checkImage(String imageUrl) {
+    public CoffeeOrderResponse checkImage(String imageUrl) {
 
         WebClient webClient = WebClient.builder()
             .baseUrl(ocrProperties.getInvokeUrl())
@@ -31,10 +34,10 @@ public class OcrService {
 
         try {
             OcrResponse response = webClient.post()
-                .bodyValue(OcrRequest.from(imageUrl))
-                .retrieve()
-                .bodyToMono(OcrResponse.class)
-                .block();
+	.bodyValue(OcrRequest.from(imageUrl))
+	.retrieve()
+	.bodyToMono(OcrResponse.class)
+	.block();
             return normalizeText(response.getOnlyText());
         } catch (WebClientResponseException e) {
             log.error("오류 응답 본문: {}", e.getResponseBodyAsString());
@@ -42,9 +45,22 @@ public class OcrService {
         return null;
     }
 
-    private ChatGptResponse normalizeText(String text) {
+    private CoffeeOrderResponse normalizeText(String text) {
         ChatGptResponse response = chatService.completion(text);
-        System.out.print(response.messages().get(0).message());
+        return parseString(response.messages().get(0).message());
+    }
+
+    public CoffeeOrderResponse parseString(String text) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
+        CoffeeOrderResponse response = null;
+        try {
+            response = objectMapper.readValue(text, CoffeeOrderResponse.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return response;
     }
 }

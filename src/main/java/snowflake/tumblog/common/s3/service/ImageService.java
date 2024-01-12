@@ -14,10 +14,12 @@ import snowflake.tumblog.ocr.service.OcrService;
 
 import java.io.IOException;
 import java.util.UUID;
+import snowflake.tumblog.tumble.dto.CoffeeOrderResponse;
 
 @Service
 @RequiredArgsConstructor
 public class ImageService {
+
     private final OcrService ocrService;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -25,7 +27,7 @@ public class ImageService {
 
     private final AmazonS3Client amazonS3Client;
 
-    public ChatGptResponse uploadImage(MultipartFile multipartFile) throws IOException {
+    public CoffeeOrderResponse uploadImage(MultipartFile multipartFile) throws IOException {
         String fileName = UUID.randomUUID() + multipartFile.getOriginalFilename();
         long size = multipartFile.getSize();
 
@@ -33,8 +35,10 @@ public class ImageService {
         objectMetaData.setContentType(multipartFile.getContentType());
         objectMetaData.setContentLength(size);
 
-        amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, multipartFile.getInputStream(), objectMetaData)
-                        .withCannedAcl(CannedAccessControlList.PublicRead));
+        amazonS3Client.putObject(
+            new PutObjectRequest(bucketName, fileName, multipartFile.getInputStream(),
+	objectMetaData)
+	.withCannedAcl(CannedAccessControlList.PublicRead));
         String imagePath = amazonS3Client.getUrl(bucketName, fileName).toString();
         return ocrService.checkImage(imagePath);
     }
