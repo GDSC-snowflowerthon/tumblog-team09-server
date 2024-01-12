@@ -45,13 +45,14 @@ public class UserController {
     }
 
     @GetMapping("/mypage/{userId}")
-    public BaseResponse<MyPageResponse> myPage(@PathVariable Long userId) {
+    public BaseResponse<MyPageResponse> myPage(@PathVariable("userId") Long userId) {
         return new BaseResponse(userService.myPage(userId));
     }
 
-    @GetMapping("/home/{userId}")
-    public BaseResponse<HomeResponse> home(@PathVariable Long userId) {
-        return new BaseResponse<>(userService.home(userId));
+    @GetMapping("/home/{userId}/{year}/{month}")
+    public BaseResponse<HomeResponse> home(@PathVariable("userId") Long userId,
+        @PathVariable("year") int year, @PathVariable("month") int month) {
+        return new BaseResponse<>(userService.home(userId, year, month));
     }
 }
 

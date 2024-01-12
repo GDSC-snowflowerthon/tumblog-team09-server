@@ -89,9 +89,10 @@ public class Tumbles {
             .orElse(LocalDate.now());
     }
 
-    public List<TumbleResponse> toResponse() {
+    public List<TumbleResponse> toResponse(int year, int month) {
         return tumbles.stream()
-            .filter(tumble -> tumble.getCreatedAt().getMonth().equals(LocalDate.now().getMonth()))
+            .filter(tumble -> tumble.getCreatedAt().getYear() == year && tumble.getCreatedAt()
+	.getMonthValue() == month)
             .map(tumble -> new TumbleResponse(tumble.getId(), tumble.getCreatedAt()))
             .collect(Collectors.toList());
     }

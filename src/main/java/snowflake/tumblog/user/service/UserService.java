@@ -37,10 +37,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public HomeResponse home(Long userId) {
+    public HomeResponse home(Long userId, int year, int month) {
         User user = userPort.findById(userId)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 
-        return HomeResponse.from(user);
+        return HomeResponse.from(user, year, month);
     }
 }

@@ -71,7 +71,7 @@ class UserServiceTest {
         회원가입_요청();
 
         // when
-        HomeResponse response = userService.home(1L);
+        HomeResponse response = userService.home(1L, 2024, 1);
 
         // then
         assertThat(response.annualSavedCarbon()).isEqualTo(0);
@@ -89,7 +89,7 @@ class UserServiceTest {
         }
 
         // when
-        HomeResponse response = userService.home(1L);
+        HomeResponse response = userService.home(1L,2024,1);
 
         // then
         assertThat(response.annualSavedCarbon()).isGreaterThan(10000);
@@ -100,10 +100,10 @@ class UserServiceTest {
     private void Tumble_생성_요청(int day) {
         // given
         CreateTumbleRequest request = new CreateTumbleRequest(LocalDate.of(2024, 01, day), "아메리카노",
-            3000, "M");
+            3000, "M", 1L);
         Long userId = 1L;
 
         // when
-        tumbleService.create(request, userId);
+        tumbleService.create(request);
     }
 }
