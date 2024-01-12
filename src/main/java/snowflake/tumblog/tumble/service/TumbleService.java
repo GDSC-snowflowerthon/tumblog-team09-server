@@ -29,13 +29,16 @@ public class TumbleService {
     }
 
     public TumbleDetailResponse detail(Long userId, LocalDate createdAt) {
+        Tumble tumble = null;
+        try {
+            User user = userRepository.findById(userId)
+	.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
-
-        Tumble tumble = tumbleRepository.findByUserAndCreatedAt(user, createdAt)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 텀블입니다."));
-
+            tumble = tumbleRepository.findByUserAndCreatedAt(user, createdAt)
+	.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 텀블입니다."));
+        } catch (IllegalArgumentException e) {
+            return new TumbleDetailResponse(null, null, null);
+        }
         return new TumbleDetailResponse(tumble.getMenu(), tumble.getDiscountPrice(),
             tumble.getSize());
     }

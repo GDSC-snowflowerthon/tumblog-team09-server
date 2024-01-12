@@ -90,10 +90,15 @@ public class Tumbles {
     }
 
     public List<TumbleResponse> toResponse(int year, int month) {
-        return tumbles.stream()
+        List<TumbleResponse> response = tumbles.stream()
             .filter(tumble -> tumble.getCreatedAt().getYear() == year && tumble.getCreatedAt()
 	.getMonthValue() == month)
             .map(tumble -> new TumbleResponse(tumble.getId(), tumble.getCreatedAt()))
             .collect(Collectors.toList());
+
+        if(response == null){
+            return List.of();
+        }
+        return response;
     }
 }

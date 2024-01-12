@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 public class ExperiencePoint {
 
     private Integer experience;
-    private final int baseExperience = 10;
 
     private ExperiencePoint(Integer experience) {
         this.experience = experience;
@@ -26,12 +25,12 @@ public class ExperiencePoint {
     }
 
     public ExperiencePoint add() {
-        return ExperiencePoint.from(this.experience + baseExperience);
+        return ExperiencePoint.from(this.experience + 10);
     }
 
     public ExperiencePoint addBonus(int consecutiveDays) {
         return ExperiencePoint.from(
-            this.experience + baseExperience + getBonusPoint(consecutiveDays));
+            this.experience + 10 + getBonusPoint(consecutiveDays));
     }
 
     public int getBonusPoint(int consecutiveDays) {
