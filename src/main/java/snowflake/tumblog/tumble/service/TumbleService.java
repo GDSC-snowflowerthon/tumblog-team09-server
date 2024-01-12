@@ -1,5 +1,6 @@
 package snowflake.tumblog.tumble.service;
 
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,8 @@ public class TumbleService {
     private final TumbleRepository tumbleRepository;
     private final UserRepository userRepository;
 
-    public void create(CreateTumbleRequest request, Long userId) {
-        User user = userRepository.findById(userId)
+    public void create(CreateTumbleRequest request) {
+        User user = userRepository.findById(request.userId())
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 
         Tumble tumble = Tumble.of(user, request);
@@ -27,9 +28,13 @@ public class TumbleService {
         user.addTumble(tumble);
     }
 
-    public TumbleDetailResponse detail(Long tumbleId) {
-        Tumble tumble = tumbleRepository.findById(tumbleId)
-            .orElseThrow(() -> new IllegalArgumentException());
+    public TumbleDetailResponse detail(Long userId, LocalDate createdAt) {
+
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+        Tumble tumble = tumbleRepository.findByUserAndCreatedAt(user, createdAt)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 텀블입니다."));
 
         return new TumbleDetailResponse(tumble.getMenu(), tumble.getDiscountPrice(),
             tumble.getSize());

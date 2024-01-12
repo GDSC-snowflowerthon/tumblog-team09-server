@@ -9,5 +9,4 @@ public class TumblogApplication {
     public static void main(String[] args) {
         SpringApplication.run(TumblogApplication.class, args);
     }
-
 }

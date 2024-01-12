@@ -3,9 +3,9 @@ package snowflake.tumblog.tumble.presentation;
 import static snowflake.tumblog.common.constants.RequestURI.*;
 import static snowflake.tumblog.common.enums.BaseResponseStatus.*;
 
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import snowflake.tumblog.common.BaseException;
 import snowflake.tumblog.common.BaseResponse;
 import snowflake.tumblog.tumble.dto.TumbleDetailResponse;
 import snowflake.tumblog.tumble.dto.CreateTumbleRequest;
@@ -19,17 +19,17 @@ public class TumbleController {
     private final TumbleService tumbleService;
 
     @ResponseBody
-    @PostMapping("/{userId}")
-    public BaseResponse<String> createTumble(@RequestBody CreateTumbleRequest request,
-        @PathVariable Long userId) {
-        tumbleService.create(request, userId);
+    @PostMapping("")
+    public BaseResponse<String> createTumble(@RequestBody CreateTumbleRequest request) {
+        tumbleService.create(request);
         return new BaseResponse<>(SUCCESS);
     }
 
     @ResponseBody
-    @GetMapping("/{tumbleId}")
+    @GetMapping("/{userId}/{createdAt}")
     public BaseResponse<TumbleDetailResponse> getTumbleDetails(
-        @PathVariable("tumbleId") Long tumbleId) {
-        return new BaseResponse<>(tumbleService.detail(tumbleId));
+        @PathVariable("userId") Long userId,
+        @PathVariable("createdAt") LocalDate createdAt) {
+        return new BaseResponse<>(tumbleService.detail(userId, createdAt));
     }
 }

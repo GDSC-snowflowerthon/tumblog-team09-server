@@ -23,6 +23,7 @@ public class Tumble {
 
     private String menu;
     private Integer discountPrice;
+    @Column(unique = true)
     private LocalDate createdAt;
 
 

@@ -29,7 +29,7 @@ class TumbleServiceTest {
     @BeforeEach
     void setUp() {
         userService.signup(CreateUserRequest.of("nickname"));
-        tumbleRepository.flush();
+        tumbleRepository.deleteAll();
     }
 
     @Test
@@ -43,21 +43,21 @@ class TumbleServiceTest {
     private void Tumble_생성_요청() {
         // given
         CreateTumbleRequest request = new CreateTumbleRequest(LocalDate.of(2024, 01, 10), "아메리카노",
-            3000, "M");
+            3000, "M", 1L);
         Long userId = 1L;
 
         // when
-        tumbleService.create(request, userId);
+        tumbleService.create(request);
     }
 
     @Test
     void Tumble_조회() {
         // given
         Tumble_생성_요청();
-        Long tumbleId = 1L;
+        Long userId = 1L;
 
         // when
-        TumbleDetailResponse response = tumbleService.detail(tumbleId);
+        TumbleDetailResponse response = tumbleService.detail(1L, LocalDate.of(2024, 01, 10));
 
         // then
         assertThat(response.menu()).isEqualTo("아메리카노");
