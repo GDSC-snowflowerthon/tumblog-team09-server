@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import snowflake.tumblog.common.BaseResponse;
 import snowflake.tumblog.user.dto.CreateUserRequest;
+import snowflake.tumblog.user.dto.HomeResponse;
 import snowflake.tumblog.user.dto.UpdateUserRequest;
 import snowflake.tumblog.user.dto.MyPageResponse;
 import snowflake.tumblog.user.service.UserService;
@@ -49,8 +50,8 @@ public class UserController {
     }
 
     @GetMapping("/home/{userId}")
-    public void home(@PathVariable Long userId) {
-        userService.home(userId);
+    public BaseResponse<HomeResponse> home(@PathVariable Long userId) {
+        return new BaseResponse<>(userService.home(userId));
     }
 }
 

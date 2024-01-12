@@ -66,6 +66,20 @@ class UserServiceTest {
     }
 
     @Test
+    void 빈_홈_조회() {
+        // given
+        회원가입_요청();
+
+        // when
+        HomeResponse response = userService.home(1L);
+
+        // then
+        assertThat(response.annualSavedCarbon()).isEqualTo(0);
+        assertThat(response.annualSavedCarbon()).isEqualTo(0);
+        assertThat(response.monthlyTumbles()).hasSize(0);
+    }
+
+    @Test
     void 홈_조회() {
         // given
         회원가입_요청();

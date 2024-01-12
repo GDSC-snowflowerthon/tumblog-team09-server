@@ -33,7 +33,7 @@ public class User extends BaseEntity {
     private Tumbles tumbles = Tumbles.initial();
 
     @Enumerated(EnumType.STRING)
-    private Level level;
+    private Level level = Level.LV_1;
 
     private User(String nickname) {
         this.nickname = nickname;
