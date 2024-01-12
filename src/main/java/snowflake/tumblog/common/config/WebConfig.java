@@ -10,7 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*") // 프톤트 배포 후 수정
+                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins("https://tumblog-team09-web.vercel.app")
                 .allowedHeaders("*")
                 .allowedMethods("GET", "POST", "PATCH")
                 .allowCredentials(false);
